@@ -34,8 +34,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView textRefreshPreset;
     private Button btnModeAgent;
     private Button btnModeController;
+    private Button btnToggleHelperPanel;
     private LinearLayout sectionAgent;
     private LinearLayout sectionController;
+    private LinearLayout sectionHelperPanel;
+    private boolean helperPanelVisible;
     private EditText editBaseUrl;
     private EditText editAccessCode;
     private EditText editRemoteText;
@@ -62,8 +65,10 @@ public class MainActivity extends AppCompatActivity {
 
         btnModeAgent = findViewById(R.id.btnModeAgent);
         btnModeController = findViewById(R.id.btnModeController);
+        btnToggleHelperPanel = findViewById(R.id.btnToggleHelperPanel);
         sectionAgent = findViewById(R.id.sectionAgent);
         sectionController = findViewById(R.id.sectionController);
+        sectionHelperPanel = findViewById(R.id.sectionHelperPanel);
 
         Button btnStartAgent = findViewById(R.id.btnStartAgent);
         Button btnStopAgent = findViewById(R.id.btnStopAgent);
@@ -124,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnModeAgent.setOnClickListener(v -> showMode(true));
         btnModeController.setOnClickListener(v -> showMode(false));
+        btnToggleHelperPanel.setOnClickListener(v -> toggleHelperPanel());
 
         btnStartAgent.setOnClickListener(v -> {
             Intent intent = new Intent(this, RemoteAgentService.class);
@@ -238,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
 
         refreshLocalStatus();
         showMode(false);
+        updateHelperPanelState();
         handleSharedConnectionIntent(getIntent());
     }
 
@@ -461,6 +468,20 @@ public class MainActivity extends AppCompatActivity {
         if (sectionController != null) sectionController.setVisibility(agentMode ? View.GONE : View.VISIBLE);
         if (btnModeAgent != null) btnModeAgent.setEnabled(!agentMode);
         if (btnModeController != null) btnModeController.setEnabled(agentMode);
+    }
+
+    private void toggleHelperPanel() {
+        helperPanelVisible = !helperPanelVisible;
+        updateHelperPanelState();
+    }
+
+    private void updateHelperPanelState() {
+        if (sectionHelperPanel != null) {
+            sectionHelperPanel.setVisibility(helperPanelVisible ? View.VISIBLE : View.GONE);
+        }
+        if (btnToggleHelperPanel != null) {
+            btnToggleHelperPanel.setText(helperPanelVisible ? "收起辅助操作" : "展开辅助操作");
+        }
     }
 
     private void pasteClipboardToRemoteText() {
