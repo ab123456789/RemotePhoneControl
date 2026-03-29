@@ -11,7 +11,9 @@ import android.os.Looper;
 import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.EditText;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -30,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView textQuality;
     private TextView textWidthPreset;
     private TextView textRefreshPreset;
+    private Button btnModeAgent;
+    private Button btnModeController;
+    private LinearLayout sectionAgent;
+    private LinearLayout sectionController;
     private EditText editBaseUrl;
     private EditText editAccessCode;
     private EditText editRemoteText;
@@ -53,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        btnModeAgent = findViewById(R.id.btnModeAgent);
+        btnModeController = findViewById(R.id.btnModeController);
+        sectionAgent = findViewById(R.id.sectionAgent);
+        sectionController = findViewById(R.id.sectionController);
 
         Button btnStartAgent = findViewById(R.id.btnStartAgent);
         Button btnStopAgent = findViewById(R.id.btnStopAgent);
@@ -110,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
         });
         textQuality.setText(String.valueOf(seekQuality.getProgress() + 25));
+
+        btnModeAgent.setOnClickListener(v -> showMode(true));
+        btnModeController.setOnClickListener(v -> showMode(false));
 
         btnStartAgent.setOnClickListener(v -> {
             Intent intent = new Intent(this, RemoteAgentService.class);
@@ -223,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         refreshLocalStatus();
+        showMode(false);
         handleSharedConnectionIntent(getIntent());
     }
 
@@ -439,6 +454,13 @@ public class MainActivity extends AppCompatActivity {
     private void updateAutoRefreshButtonText(Button button) {
         if (button == null) return;
         button.setText(autoRefresh ? "停止自动刷新" : "开启自动刷新");
+    }
+
+    private void showMode(boolean agentMode) {
+        if (sectionAgent != null) sectionAgent.setVisibility(agentMode ? View.VISIBLE : View.GONE);
+        if (sectionController != null) sectionController.setVisibility(agentMode ? View.GONE : View.VISIBLE);
+        if (btnModeAgent != null) btnModeAgent.setEnabled(!agentMode);
+        if (btnModeController != null) btnModeController.setEnabled(agentMode);
     }
 
     private void pasteClipboardToRemoteText() {
