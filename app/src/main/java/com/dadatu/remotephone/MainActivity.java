@@ -214,6 +214,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         refreshLocalStatus();
+        handleSharedConnectionIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleSharedConnectionIntent(intent);
     }
 
     @Override
@@ -441,6 +449,18 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         String raw = String.valueOf(clip.getItemAt(0).coerceToText(this));
+        if (applyConnectionInfoText(raw, "已从剪贴板导入连接信息")) return;
+        textOutput.setText("剪贴板内容里没识别到地址和访问码");
+    }
+
+    private void handleSharedConnectionIntent(Intent intent) {
+        if (intent == null || !Intent.ACTION_SEND.equals(intent.getAction())) return;
+        String shared = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if (shared == null || shared.trim().isEmpty()) return;
+        applyConnectionInfoText(shared, "已从系统分享导入连接信息");
+    }
+
+    private boolean applyConnectionInfoText(String raw, String successMessage) {
         String[] lines = raw.split("\\r?\\n");
         String base = null;
         String code = null;
@@ -453,13 +473,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (base == null || base.isEmpty() || code == null || code.isEmpty()) {
-            textOutput.setText("剪贴板内容里没识别到地址和访问码");
-            return;
+            return false;
         }
         editBaseUrl.setText(base);
         editAccessCode.setText(code);
         saveControllerPrefs();
-        textOutput.setText("已从剪贴板导入连接信息");
+        textOutput.setText(successMessage);
+        return true;
     }
 
     private String pickLocalAgentBaseUrl() {
