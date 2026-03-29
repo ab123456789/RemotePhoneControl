@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textOutput;
     private TextView textQuality;
     private TextView textWidthPreset;
+    private TextView textRefreshPreset;
     private EditText editBaseUrl;
     private EditText editAccessCode;
     private EditText editRemoteText;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             if (!autoRefresh) return;
             fetchScreen();
-            handler.postDelayed(this, 2000);
+            handler.postDelayed(this, currentRefreshMs());
         }
     };
 
@@ -71,10 +72,14 @@ public class MainActivity extends AppCompatActivity {
         Button btnWidthLow = findViewById(R.id.btnWidthLow);
         Button btnWidthMedium = findViewById(R.id.btnWidthMedium);
         Button btnWidthHigh = findViewById(R.id.btnWidthHigh);
+        Button btnRefresh1s = findViewById(R.id.btnRefresh1s);
+        Button btnRefresh2s = findViewById(R.id.btnRefresh2s);
+        Button btnRefresh4s = findViewById(R.id.btnRefresh4s);
 
         textOutput = findViewById(R.id.textOutput);
         textQuality = findViewById(R.id.textQuality);
         textWidthPreset = findViewById(R.id.textWidthPreset);
+        textRefreshPreset = findViewById(R.id.textRefreshPreset);
         editBaseUrl = findViewById(R.id.editBaseUrl);
         editAccessCode = findViewById(R.id.editAccessCode);
         editRemoteText = findViewById(R.id.editRemoteText);
@@ -122,6 +127,9 @@ public class MainActivity extends AppCompatActivity {
         btnWidthLow.setOnClickListener(v -> setWidthPreset(480));
         btnWidthMedium.setOnClickListener(v -> setWidthPreset(720));
         btnWidthHigh.setOnClickListener(v -> setWidthPreset(1080));
+        btnRefresh1s.setOnClickListener(v -> setRefreshPreset(1000));
+        btnRefresh2s.setOnClickListener(v -> setRefreshPreset(2000));
+        btnRefresh4s.setOnClickListener(v -> setRefreshPreset(4000));
         btnAutoRefresh.setOnClickListener(v -> {
             autoRefresh = !autoRefresh;
             btnAutoRefresh.setText(autoRefresh ? "停止自动刷新" : "开启自动刷新");
@@ -258,24 +266,39 @@ public class MainActivity extends AppCompatActivity {
             editAccessCode.setText(savedCode.isEmpty() ? AppConfig.getOrCreateAccessCode(this) : savedCode);
         }
         updateWidthPresetText();
+        updateRefreshPresetText();
     }
 
     private void saveControllerPrefs() {
-        ControllerPrefs.save(this, baseUrl(), code(), currentWidth());
+        ControllerPrefs.save(this, baseUrl(), code(), currentWidth(), currentRefreshMs());
     }
 
     private void setWidthPreset(int width) {
-        ControllerPrefs.save(this, baseUrl(), code(), width);
+        ControllerPrefs.save(this, baseUrl(), code(), width, currentRefreshMs());
         updateWidthPresetText();
         textOutput.setText("截图宽度已切到：" + width);
+    }
+
+    private void setRefreshPreset(int refreshMs) {
+        ControllerPrefs.save(this, baseUrl(), code(), currentWidth(), refreshMs);
+        updateRefreshPresetText();
+        textOutput.setText("自动刷新间隔已切到：" + (refreshMs / 1000) + "秒");
     }
 
     private int currentWidth() {
         return ControllerPrefs.getWidth(this);
     }
 
+    private int currentRefreshMs() {
+        return ControllerPrefs.getRefreshMs(this);
+    }
+
     private void updateWidthPresetText() {
         textWidthPreset.setText("当前宽度：" + currentWidth());
+    }
+
+    private void updateRefreshPresetText() {
+        textRefreshPreset.setText("自动刷新：" + (currentRefreshMs() / 1000) + "秒");
     }
 
     private String baseUrl() {
