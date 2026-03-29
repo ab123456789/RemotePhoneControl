@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnKeyHome = findViewById(R.id.btnKeyHome);
         Button btnKeyBack = findViewById(R.id.btnKeyBack);
         Button btnKeyRecent = findViewById(R.id.btnKeyRecent);
+        Button btnKeyMenu = findViewById(R.id.btnKeyMenu);
         Button btnKeyUp = findViewById(R.id.btnKeyUp);
         Button btnKeyDown = findViewById(R.id.btnKeyDown);
         Button btnKeyLeft = findViewById(R.id.btnKeyLeft);
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         btnKeyHome.setOnClickListener(v -> sendKey("home"));
         btnKeyBack.setOnClickListener(v -> sendKey("back"));
         btnKeyRecent.setOnClickListener(v -> sendKey("recent"));
+        btnKeyMenu.setOnClickListener(v -> sendKey("menu"));
         btnKeyUp.setOnClickListener(v -> sendKey("up"));
         btnKeyDown.setOnClickListener(v -> sendKey("down"));
         btnKeyLeft.setOnClickListener(v -> sendKey("left"));

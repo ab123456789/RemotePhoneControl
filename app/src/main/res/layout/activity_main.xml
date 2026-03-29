@@ -364,6 +364,15 @@
                 android:layout_height="52dp"
                 android:layout_weight="1"
                 android:text="Recent" />
+
+            <Space android:layout_width="10dp" android:layout_height="1dp" />
+
+            <Button
+                android:id="@+id/btnKeyMenu"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="Menu" />
         </LinearLayout>
 
         <LinearLayout
