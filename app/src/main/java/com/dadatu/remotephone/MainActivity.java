@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private Bitmap lastBitmap;
     private int touchStartX;
     private int touchStartY;
+    private long touchStartAt;
     private final Runnable autoRefreshTask = new Runnable() {
         @Override
         public void run() {
@@ -159,16 +160,25 @@ public class MainActivity extends AppCompatActivity {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 touchStartX = x;
                 touchStartY = y;
+                touchStartAt = System.currentTimeMillis();
                 return true;
             }
             if (event.getAction() != MotionEvent.ACTION_UP) return true;
             int dx = Math.abs(x - touchStartX);
             int dy = Math.abs(y - touchStartY);
+            long heldMs = System.currentTimeMillis() - touchStartAt;
             if (dx < 24 && dy < 24) {
-                runTask(() -> {
-                    saveControllerPrefs();
-                    return ControllerRepository.tap(baseUrl(), code(), x, y).toString(2);
-                }, true);
+                if (heldMs >= 420) {
+                    runTask(() -> {
+                        saveControllerPrefs();
+                        return ControllerRepository.swipe(baseUrl(), code(), x, y, x + 1, y + 1, 650).toString(2);
+                    }, true);
+                } else {
+                    runTask(() -> {
+                        saveControllerPrefs();
+                        return ControllerRepository.tap(baseUrl(), code(), x, y).toString(2);
+                    }, true);
+                }
             } else {
                 int endX = x;
                 int endY = y;
