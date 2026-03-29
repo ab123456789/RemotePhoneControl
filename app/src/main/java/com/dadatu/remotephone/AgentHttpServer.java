@@ -81,6 +81,11 @@ public class AgentHttpServer {
                 }
             }
 
+            if ("OPTIONS".equals(method)) {
+                writeJson(out, 200, new JSONObject().put("ok", true));
+                return;
+            }
+
             if ("GET".equals(method) && "/api/status".equals(path)) {
                 writeJson(out, 200, manager.status());
                 return;
@@ -148,8 +153,12 @@ public class AgentHttpServer {
     private void writeJson(OutputStream out, int code, JSONObject obj) throws Exception {
         byte[] body = obj.toString().getBytes(StandardCharsets.UTF_8);
         ByteArrayOutputStream header = new ByteArrayOutputStream();
-        header.write(("HTTP/1.1 " + code + " OK\r\n").getBytes(StandardCharsets.UTF_8));
+        String statusText = code >= 200 && code < 300 ? "OK" : (code == 401 ? "Unauthorized" : (code == 404 ? "Not Found" : "Error"));
+        header.write(("HTTP/1.1 " + code + " " + statusText + "\r\n").getBytes(StandardCharsets.UTF_8));
         header.write("Content-Type: application/json; charset=utf-8\r\n".getBytes(StandardCharsets.UTF_8));
+        header.write("Access-Control-Allow-Origin: *\r\n".getBytes(StandardCharsets.UTF_8));
+        header.write("Access-Control-Allow-Headers: Content-Type, X-Access-Code\r\n".getBytes(StandardCharsets.UTF_8));
+        header.write("Access-Control-Allow-Methods: GET, POST, OPTIONS\r\n".getBytes(StandardCharsets.UTF_8));
         header.write(("Content-Length: " + body.length + "\r\n").getBytes(StandardCharsets.UTF_8));
         header.write("Connection: close\r\n\r\n".getBytes(StandardCharsets.UTF_8));
         out.write(header.toByteArray());
