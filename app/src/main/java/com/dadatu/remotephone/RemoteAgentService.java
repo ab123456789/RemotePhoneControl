@@ -15,23 +15,45 @@ import androidx.core.app.NotificationCompat;
 public class RemoteAgentService extends Service {
     private static final String CHANNEL_ID = "remote_agent";
     private static final int NOTIFICATION_ID = 2001;
+    private AgentHttpServer server;
 
     @Override
     public void onCreate() {
         super.onCreate();
         createNotificationChannel();
         startForeground(NOTIFICATION_ID, buildNotification());
+        ensureServerStarted();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        ensureServerStarted();
         return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (server != null) {
+            server.stop();
+            server = null;
+        }
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    private synchronized void ensureServerStarted() {
+        if (server != null) return;
+        server = new AgentHttpServer(this);
+        try {
+            server.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private Notification buildNotification() {
