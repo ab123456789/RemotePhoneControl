@@ -51,9 +51,6 @@
       android:name=".AdbKeyActivity"
       android:exported="false" />
     <activity
-      android:name=".ActiveActivity"
-      android:exported="false" />
-    <activity
       android:name=".UsbActivity"
       android:directBootAware="true"
       android:exported="false">

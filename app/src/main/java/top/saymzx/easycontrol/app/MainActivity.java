@@ -64,7 +64,6 @@ public class MainActivity extends Activity {
 
   // 检测激活
   private void checkActive() {
-    if (!AppData.setting.getIsActive()) startActivity(new Intent(this, ActiveActivity.class));
   }
 
   // 设置按钮监听
