@@ -93,12 +93,7 @@ public class MainActivity extends AppCompatActivity {
             refreshLocalStatus();
         });
 
-        btnFetchStatus.setOnClickListener(v -> runTask(() -> {
-            saveControllerPrefs();
-            JSONObject status = ControllerRepository.fetchStatus(baseUrl());
-            ControllerSession.setLastStatus(status);
-            return status.toString(2);
-        }));
+        btnFetchStatus.setOnClickListener(v -> runTask(() -> refreshRemoteStatusText()));
         btnFetchScreen.setOnClickListener(v -> fetchScreen());
         btnKeyHome.setOnClickListener(v -> sendKey("home"));
         btnKeyBack.setOnClickListener(v -> sendKey("back"));
@@ -199,7 +194,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void fetchScreen() {
         saveControllerPrefs();
-        runTaskWithBitmap(() -> ControllerRepository.fetchScreenshot(baseUrl(), code(), seekQuality.getProgress() + 25, 720));
+        runTaskWithBitmap(() -> {
+            ensureRemoteStatusLoaded();
+            return ControllerRepository.fetchScreenshot(baseUrl(), code(), seekQuality.getProgress() + 25, 720);
+        });
     }
 
     private void sendKey(String key) {
@@ -207,6 +205,19 @@ public class MainActivity extends AppCompatActivity {
             saveControllerPrefs();
             return ControllerRepository.key(baseUrl(), code(), key).toString(2);
         });
+    }
+
+    private String refreshRemoteStatusText() throws Exception {
+        saveControllerPrefs();
+        JSONObject status = ControllerRepository.fetchStatus(baseUrl());
+        ControllerSession.setLastStatus(status);
+        return RemoteStatusFormatter.format(status);
+    }
+
+    private void ensureRemoteStatusLoaded() throws Exception {
+        if (ControllerSession.getLastStatus() != null) return;
+        JSONObject status = ControllerRepository.fetchStatus(baseUrl());
+        ControllerSession.setLastStatus(status);
     }
 
     private void sendSwipe(int x1, int y1, int x2, int y2, int durationMs) {

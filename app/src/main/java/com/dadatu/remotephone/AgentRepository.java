@@ -10,9 +10,12 @@ public final class AgentRepository {
     public static String buildStatusText(Context context) {
         try {
             JSONObject status = new AgentControlManager(context).status();
+            JSONObject display = status.optJSONObject("display");
+            String displayText = display == null ? "未知" : (display.optInt("width", 0) + " x " + display.optInt("height", 0));
             return "被控端服务状态\n\n"
                 + "访问码：" + status.optString("accessCode") + "\n\n"
                 + "Root：" + (status.optBoolean("rootOk") ? "正常" : "异常") + "\n\n"
+                + "屏幕：" + displayText + "\n\n"
                 + "连接地址：\n"
                 + joinUrls(status.optJSONArray("remoteUrls")) + "\n\n"
                 + "id 输出：\n" + status.optString("idOutput");
