@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
         btnRefresh4s.setOnClickListener(v -> setRefreshPreset(4000));
         btnAutoRefresh.setOnClickListener(v -> {
             autoRefresh = !autoRefresh;
+            ControllerPrefs.setAutoRefresh(this, autoRefresh);
             updateAutoRefreshButtonText(btnAutoRefresh);
             handler.removeCallbacks(autoRefreshTask);
             if (autoRefresh) handler.post(autoRefreshTask);
@@ -236,6 +237,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         refreshLocalStatus();
+        handler.removeCallbacks(autoRefreshTask);
+        if (autoRefresh) {
+            handler.postDelayed(autoRefreshTask, currentRefreshMs());
+        }
     }
 
     @Override
@@ -312,6 +317,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void stopWatching() {
         autoRefresh = false;
+        ControllerPrefs.setAutoRefresh(this, false);
         handler.removeCallbacks(autoRefreshTask);
         updateAutoRefreshButtonText((Button) findViewById(R.id.btnAutoRefresh));
         textOutput.setText("已停止盯屏");
@@ -330,6 +336,7 @@ public class MainActivity extends AppCompatActivity {
                     imageScreen.setImageBitmap(bitmap);
                     if (enableAutoRefreshAfter) {
                         autoRefresh = true;
+                        ControllerPrefs.setAutoRefresh(this, true);
                         updateAutoRefreshButtonText((Button) findViewById(R.id.btnAutoRefresh));
                         handler.removeCallbacks(autoRefreshTask);
                         handler.postDelayed(autoRefreshTask, currentRefreshMs());
@@ -385,6 +392,7 @@ public class MainActivity extends AppCompatActivity {
         textOutput.setText(AgentRepository.buildStatusText(this));
         String savedBaseUrl = ControllerPrefs.getBaseUrl(this);
         String savedCode = ControllerPrefs.getAccessCode(this);
+        autoRefresh = ControllerPrefs.getAutoRefresh(this);
         if (editBaseUrl.getText() == null || editBaseUrl.getText().toString().trim().isEmpty()) {
             editBaseUrl.setText(savedBaseUrl.isEmpty() ? "http://127.0.0.1:" + AppConfig.PORT : savedBaseUrl);
         }

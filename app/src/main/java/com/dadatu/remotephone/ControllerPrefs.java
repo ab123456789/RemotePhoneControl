@@ -11,6 +11,7 @@ public final class ControllerPrefs {
     private static final String KEY_ACCESS_CODE = "access_code_input";
     private static final String KEY_WIDTH = "screen_width";
     private static final String KEY_REFRESH_MS = "refresh_ms";
+    private static final String KEY_AUTO_REFRESH = "auto_refresh";
 
     public static void save(Context context, String baseUrl, String accessCode, int width, int refreshMs) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
@@ -36,5 +37,16 @@ public final class ControllerPrefs {
 
     public static int getRefreshMs(Context context) {
         return context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getInt(KEY_REFRESH_MS, 2000);
+    }
+
+    public static void setAutoRefresh(Context context, boolean enabled) {
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .edit()
+            .putBoolean(KEY_AUTO_REFRESH, enabled)
+            .apply();
+    }
+
+    public static boolean getAutoRefresh(Context context) {
+        return context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_AUTO_REFRESH, false);
     }
 }
