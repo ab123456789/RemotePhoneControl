@@ -67,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
         Button btnSwipeLeft = findViewById(R.id.btnSwipeLeft);
         Button btnSwipeDown = findViewById(R.id.btnSwipeDown);
         Button btnSwipeRight = findViewById(R.id.btnSwipeRight);
+        Button btnWidthLow = findViewById(R.id.btnWidthLow);
+        Button btnWidthMedium = findViewById(R.id.btnWidthMedium);
+        Button btnWidthHigh = findViewById(R.id.btnWidthHigh);
 
         textOutput = findViewById(R.id.textOutput);
         textQuality = findViewById(R.id.textQuality);
@@ -114,6 +117,9 @@ public class MainActivity extends AppCompatActivity {
         btnSwipeDown.setOnClickListener(v -> sendSwipe(540, 700, 540, 1900, 220));
         btnSwipeLeft.setOnClickListener(v -> sendSwipe(900, 1200, 180, 1200, 220));
         btnSwipeRight.setOnClickListener(v -> sendSwipe(180, 1200, 900, 1200, 220));
+        btnWidthLow.setOnClickListener(v -> setWidthPreset(480));
+        btnWidthMedium.setOnClickListener(v -> setWidthPreset(720));
+        btnWidthHigh.setOnClickListener(v -> setWidthPreset(1080));
         btnAutoRefresh.setOnClickListener(v -> {
             autoRefresh = !autoRefresh;
             btnAutoRefresh.setText(autoRefresh ? "停止自动刷新" : "开启自动刷新");
@@ -208,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
         saveControllerPrefs();
         runTaskWithBitmap(() -> {
             ensureRemoteStatusLoaded();
-            return ControllerRepository.fetchScreenshot(baseUrl(), code(), seekQuality.getProgress() + 25, 720);
+            return ControllerRepository.fetchScreenshot(baseUrl(), code(), seekQuality.getProgress() + 25, currentWidth());
         });
     }
 
@@ -252,7 +258,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveControllerPrefs() {
-        ControllerPrefs.save(this, baseUrl(), code());
+        ControllerPrefs.save(this, baseUrl(), code(), currentWidth());
+    }
+
+    private void setWidthPreset(int width) {
+        ControllerPrefs.save(this, baseUrl(), code(), width);
+        textOutput.setText("截图宽度已切到：" + width);
+    }
+
+    private int currentWidth() {
+        return ControllerPrefs.getWidth(this);
     }
 
     private String baseUrl() {
