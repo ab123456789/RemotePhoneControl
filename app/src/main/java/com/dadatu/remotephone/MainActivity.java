@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnCopyConnectionInfo = findViewById(R.id.btnCopyConnectionInfo);
         Button btnShareConnectionInfo = findViewById(R.id.btnShareConnectionInfo);
         Button btnQuickConnect = findViewById(R.id.btnQuickConnect);
+        Button btnQuickWatch = findViewById(R.id.btnQuickWatch);
         Button btnFetchStatus = findViewById(R.id.btnFetchStatus);
         Button btnFetchScreen = findViewById(R.id.btnFetchScreen);
         Button btnUseLocalAgent = findViewById(R.id.btnUseLocalAgent);
@@ -128,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         btnShareConnectionInfo.setOnClickListener(v -> shareConnectionInfo());
 
         btnQuickConnect.setOnClickListener(v -> quickConnect());
+        btnQuickWatch.setOnClickListener(v -> quickWatch());
         btnFetchStatus.setOnClickListener(v -> runTask(() -> refreshRemoteStatusText()));
         btnFetchScreen.setOnClickListener(v -> fetchScreen());
         btnUseLocalAgent.setOnClickListener(v -> useLocalAgentAddress());
@@ -162,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         btnRefresh4s.setOnClickListener(v -> setRefreshPreset(4000));
         btnAutoRefresh.setOnClickListener(v -> {
             autoRefresh = !autoRefresh;
-            btnAutoRefresh.setText(autoRefresh ? "停止自动刷新" : "开启自动刷新");
+            updateAutoRefreshButtonText(btnAutoRefresh);
             handler.removeCallbacks(autoRefreshTask);
             if (autoRefresh) handler.post(autoRefreshTask);
         });
@@ -297,8 +299,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void quickConnect() {
+        quickConnect(false);
+    }
+
+    private void quickWatch() {
+        quickConnect(true);
+    }
+
+    private void quickConnect(boolean enableAutoRefreshAfter) {
         saveControllerPrefs();
-        textOutput.setText("正在连接远程设备...");
+        textOutput.setText(enableAutoRefreshAfter ? "正在连接远程设备并开启盯屏..." : "正在连接远程设备...");
         executor.execute(() -> {
             try {
                 JSONObject status = ControllerRepository.fetchStatus(baseUrl());
@@ -307,7 +317,15 @@ public class MainActivity extends AppCompatActivity {
                 lastBitmap = bitmap;
                 runOnUiThread(() -> {
                     imageScreen.setImageBitmap(bitmap);
-                    textOutput.setText(RemoteStatusFormatter.format(status) + "\n\n画面：已连接并刷新");
+                    if (enableAutoRefreshAfter) {
+                        autoRefresh = true;
+                        updateAutoRefreshButtonText((Button) findViewById(R.id.btnAutoRefresh));
+                        handler.removeCallbacks(autoRefreshTask);
+                        handler.postDelayed(autoRefreshTask, currentRefreshMs());
+                        textOutput.setText(RemoteStatusFormatter.format(status) + "\n\n画面：已连接并进入自动刷新");
+                    } else {
+                        textOutput.setText(RemoteStatusFormatter.format(status) + "\n\n画面：已连接并刷新");
+                    }
                 });
             } catch (Exception e) {
                 runOnUiThread(() -> textOutput.setText("ERROR: " + e));
@@ -395,6 +413,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateRefreshPresetText() {
         textRefreshPreset.setText("自动刷新：" + (currentRefreshMs() / 1000) + "秒");
+    }
+
+    private void updateAutoRefreshButtonText(Button button) {
+        if (button == null) return;
+        button.setText(autoRefresh ? "停止自动刷新" : "开启自动刷新");
     }
 
     private void pasteClipboardToRemoteText() {

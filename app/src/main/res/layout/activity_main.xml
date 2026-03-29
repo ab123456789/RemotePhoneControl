@@ -143,12 +143,28 @@
             android:layout_marginTop="10dp"
             android:text="从剪贴板导入连接信息" />
 
-        <Button
-            android:id="@+id/btnQuickConnect"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="快速连接并刷新画面" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnQuickConnect"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="快速连接并刷新画面" />
+
+            <Space android:layout_width="10dp" android:layout_height="1dp" />
+
+            <Button
+                android:id="@+id/btnQuickWatch"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="连接并开启盯屏" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
