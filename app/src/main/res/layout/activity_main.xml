@@ -187,7 +187,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="先把被控端手机分享出来的公网 IPv6 地址和 6 位访问码填进来，再直接打开远程画面。"
+                android:text="填入被控端分享出来的公网 IPv6 地址和 6 位访问码，然后直接打开远程画面。"
                 android:textColor="@color/rpc_muted"
                 android:textSize="13sp" />
 
@@ -198,7 +198,8 @@
                 android:background="#FFFFFFFF"
                 android:hint="公网 IPv6 地址，例如 http://[240e:xxxx:xxxx::1]:19876"
                 android:inputType="textUri"
-                android:padding="16dp"
+                android:minHeight="52dp"
+                android:padding="14dp"
                 android:textColor="@color/rpc_text"
                 android:textColorHint="@color/rpc_muted" />
 
@@ -210,7 +211,8 @@
                 android:background="#FFFFFFFF"
                 android:hint="6位访问码"
                 android:inputType="number"
-                android:padding="16dp"
+                android:minHeight="52dp"
+                android:padding="14dp"
                 android:textColor="@color/rpc_text"
                 android:textColorHint="@color/rpc_muted" />
 
@@ -433,7 +435,7 @@
             <ImageView
                 android:id="@+id/imageScreen"
                 android:layout_width="match_parent"
-                android:layout_height="420dp"
+                android:layout_height="380dp"
                 android:layout_marginTop="12dp"
                 android:adjustViewBounds="true"
                 android:background="#FF111827"
