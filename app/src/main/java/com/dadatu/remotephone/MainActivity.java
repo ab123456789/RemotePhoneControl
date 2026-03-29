@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnStartAgent = findViewById(R.id.btnStartAgent);
         Button btnFetchStatus = findViewById(R.id.btnFetchStatus);
         Button btnFetchScreen = findViewById(R.id.btnFetchScreen);
+        Button btnUseLocalAgent = findViewById(R.id.btnUseLocalAgent);
         Button btnKeyHome = findViewById(R.id.btnKeyHome);
         Button btnKeyBack = findViewById(R.id.btnKeyBack);
         Button btnKeyRecent = findViewById(R.id.btnKeyRecent);
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnFetchStatus.setOnClickListener(v -> runTask(() -> refreshRemoteStatusText()));
         btnFetchScreen.setOnClickListener(v -> fetchScreen());
+        btnUseLocalAgent.setOnClickListener(v -> useLocalAgentAddress());
         btnKeyHome.setOnClickListener(v -> sendKey("home"));
         btnKeyBack.setOnClickListener(v -> sendKey("back"));
         btnKeyRecent.setOnClickListener(v -> sendKey("recent"));
@@ -365,6 +367,24 @@ public class MainActivity extends AppCompatActivity {
         CharSequence text = clip.getItemAt(0).coerceToText(this);
         editRemoteText.setText(text == null ? "" : text.toString());
         textOutput.setText("已把本机剪贴板内容带入远程输入框");
+    }
+
+    private void useLocalAgentAddress() {
+        java.util.List<String> urls = AppConfig.getRemoteUrls();
+        String selected = "http://127.0.0.1:" + AppConfig.PORT;
+        for (String url : urls) {
+            if (url.startsWith("http://") && !url.contains("127.0.0.1")) {
+                selected = url.replace("/api/status", "");
+                break;
+            }
+        }
+        if (selected.endsWith("/api/status")) {
+            selected = selected.substring(0, selected.length() - "/api/status".length());
+        }
+        editBaseUrl.setText(selected);
+        editAccessCode.setText(AppConfig.getOrCreateAccessCode(this));
+        saveControllerPrefs();
+        textOutput.setText("已带入本机被控端地址和访问码");
     }
 
     private String baseUrl() {

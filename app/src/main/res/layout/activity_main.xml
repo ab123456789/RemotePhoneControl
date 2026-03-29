@@ -67,6 +67,13 @@
             android:textColor="@color/rpc_text"
             android:textColorHint="@color/rpc_muted" />
 
+        <Button
+            android:id="@+id/btnUseLocalAgent"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:text="使用本机被控地址" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
