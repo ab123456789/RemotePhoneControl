@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnFetchStatus = findViewById(R.id.btnFetchStatus);
         Button btnFetchScreen = findViewById(R.id.btnFetchScreen);
         Button btnUseLocalAgent = findViewById(R.id.btnUseLocalAgent);
+        Button btnImportConnectionInfo = findViewById(R.id.btnImportConnectionInfo);
         Button btnKeyHome = findViewById(R.id.btnKeyHome);
         Button btnKeyBack = findViewById(R.id.btnKeyBack);
         Button btnKeyRecent = findViewById(R.id.btnKeyRecent);
@@ -126,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         btnFetchStatus.setOnClickListener(v -> runTask(() -> refreshRemoteStatusText()));
         btnFetchScreen.setOnClickListener(v -> fetchScreen());
         btnUseLocalAgent.setOnClickListener(v -> useLocalAgentAddress());
+        btnImportConnectionInfo.setOnClickListener(v -> importConnectionInfoFromClipboard());
         btnKeyHome.setOnClickListener(v -> sendKey("home"));
         btnKeyBack.setOnClickListener(v -> sendKey("back"));
         btnKeyRecent.setOnClickListener(v -> sendKey("recent"));
@@ -412,6 +414,39 @@ public class MainActivity extends AppCompatActivity {
         String text = "RemotePhoneControl 连接信息\n地址：" + base + "\n访问码：" + code;
         cm.setPrimaryClip(ClipData.newPlainText("remote_agent_connection_info", text));
         textOutput.setText("已复制完整连接信息到剪贴板");
+    }
+
+    private void importConnectionInfoFromClipboard() {
+        ClipboardManager cm = getSystemService(ClipboardManager.class);
+        if (cm == null || !cm.hasPrimaryClip()) {
+            textOutput.setText("剪贴板里没有连接信息");
+            return;
+        }
+        ClipData clip = cm.getPrimaryClip();
+        if (clip == null || clip.getItemCount() == 0) {
+            textOutput.setText("剪贴板里没有连接信息");
+            return;
+        }
+        String raw = String.valueOf(clip.getItemAt(0).coerceToText(this));
+        String[] lines = raw.split("\\r?\\n");
+        String base = null;
+        String code = null;
+        for (String line : lines) {
+            String trimmed = line.trim();
+            if (trimmed.startsWith("地址：")) {
+                base = trimmed.substring(3).trim();
+            } else if (trimmed.startsWith("访问码：")) {
+                code = trimmed.substring(4).trim();
+            }
+        }
+        if (base == null || base.isEmpty() || code == null || code.isEmpty()) {
+            textOutput.setText("剪贴板内容里没识别到地址和访问码");
+            return;
+        }
+        editBaseUrl.setText(base);
+        editAccessCode.setText(code);
+        saveControllerPrefs();
+        textOutput.setText("已从剪贴板导入连接信息");
     }
 
     private String pickLocalAgentBaseUrl() {

@@ -120,6 +120,13 @@
             android:layout_marginTop="10dp"
             android:text="使用本机被控地址" />
 
+        <Button
+            android:id="@+id/btnImportConnectionInfo"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:text="从剪贴板导入连接信息" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
