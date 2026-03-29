@@ -171,7 +171,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="连接"
+            android:text="公网 IPv6 直连"
             android:textColor="@color/rpc_text"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -183,6 +183,13 @@
             android:background="#14FFFFFF"
             android:orientation="vertical"
             android:padding="14dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="把被控端手机分享出来的公网 IPv6 地址和 6 位访问码填进来，然后直接打开远程画面。"
+                android:textColor="@color/rpc_muted"
+                android:textSize="13sp" />
 
             <EditText
                 android:id="@+id/editBaseUrl"
@@ -218,7 +225,7 @@
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:text="填入本机被控端" />
+                    android:text="使用本机地址" />
 
                 <Space android:layout_width="10dp" android:layout_height="1dp" />
 
@@ -227,7 +234,7 @@
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:text="导入连接信息" />
+                    android:text="导入分享信息" />
             </LinearLayout>
 
             <LinearLayout
@@ -241,7 +248,7 @@
                     android:layout_width="0dp"
                     android:layout_height="56dp"
                     android:layout_weight="1"
-                    android:text="直连并打开画面" />
+                    android:text="打开远程画面" />
 
                 <Space android:layout_width="10dp" android:layout_height="1dp" />
 
@@ -250,7 +257,7 @@
                     android:layout_width="0dp"
                     android:layout_height="56dp"
                     android:layout_weight="1"
-                    android:text="直连并持续盯屏" />
+                    android:text="打开并持续查看" />
             </LinearLayout>
 
             <LinearLayout
@@ -264,7 +271,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
-                    android:text="停止盯屏" />
+                    android:text="停止持续查看" />
 
                 <Space android:layout_width="10dp" android:layout_height="1dp" />
 
@@ -273,7 +280,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
-                    android:text="检查直连" />
+                    android:text="检查连接" />
 
                 <Space android:layout_width="10dp" android:layout_height="1dp" />
 
@@ -282,7 +289,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
-                    android:text="刷新画面" />
+                    android:text="重刷画面" />
             </LinearLayout>
         </LinearLayout>
 
