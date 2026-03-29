@@ -90,6 +90,59 @@
                 android:text="刷新画面" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="画质"
+                android:textColor="@color/rpc_text" />
+
+            <SeekBar
+                android:id="@+id/seekQuality"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="70"
+                android:progress="35" />
+
+            <TextView
+                android:id="@+id/textQuality"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="60"
+                android:textColor="@color/rpc_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnAutoRefresh"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="开启自动刷新" />
+
+            <Space android:layout_width="10dp" android:layout_height="1dp" />
+
+            <Button
+                android:id="@+id/btnSwipeUp"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="上滑" />
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/imageScreen"
             android:layout_width="match_parent"
@@ -97,7 +150,16 @@
             android:layout_marginTop="12dp"
             android:adjustViewBounds="true"
             android:background="#FF111827"
+            android:contentDescription="远程画面"
             android:scaleType="fitCenter" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="点画面会按当前图片比例映射成一次 tap。"
+            android:textColor="@color/rpc_muted"
+            android:textSize="12sp" />
 
         <LinearLayout
             android:layout_width="match_parent"

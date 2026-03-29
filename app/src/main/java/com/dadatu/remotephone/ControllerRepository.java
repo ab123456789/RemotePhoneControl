@@ -30,6 +30,16 @@ public final class ControllerRepository {
         return ControllerHttpClient.postJson(normalize(baseUrl) + "/api/tap", accessCode, body);
     }
 
+    public static JSONObject swipe(String baseUrl, String accessCode, int x1, int y1, int x2, int y2, int durationMs) throws Exception {
+        JSONObject body = new JSONObject();
+        body.put("x1", x1);
+        body.put("y1", y1);
+        body.put("x2", x2);
+        body.put("y2", y2);
+        body.put("durationMs", durationMs);
+        return ControllerHttpClient.postJson(normalize(baseUrl) + "/api/swipe", accessCode, body);
+    }
+
     public static JSONObject key(String baseUrl, String accessCode, String key) throws Exception {
         JSONObject body = new JSONObject();
         body.put("key", key);
