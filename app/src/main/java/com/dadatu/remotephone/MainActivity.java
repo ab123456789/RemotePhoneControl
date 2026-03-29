@@ -53,6 +53,14 @@ public class MainActivity extends AppCompatActivity {
         Button btnKeyHome = findViewById(R.id.btnKeyHome);
         Button btnKeyBack = findViewById(R.id.btnKeyBack);
         Button btnKeyRecent = findViewById(R.id.btnKeyRecent);
+        Button btnKeyUp = findViewById(R.id.btnKeyUp);
+        Button btnKeyDown = findViewById(R.id.btnKeyDown);
+        Button btnKeyLeft = findViewById(R.id.btnKeyLeft);
+        Button btnKeyRight = findViewById(R.id.btnKeyRight);
+        Button btnKeyEnter = findViewById(R.id.btnKeyEnter);
+        Button btnKeyPower = findViewById(R.id.btnKeyPower);
+        Button btnKeyVolumeUp = findViewById(R.id.btnKeyVolumeUp);
+        Button btnKeyVolumeDown = findViewById(R.id.btnKeyVolumeDown);
         Button btnSendText = findViewById(R.id.btnSendText);
         Button btnAutoRefresh = findViewById(R.id.btnAutoRefresh);
         Button btnSwipeUp = findViewById(R.id.btnSwipeUp);
@@ -87,9 +95,17 @@ public class MainActivity extends AppCompatActivity {
             return status.toString(2);
         }));
         btnFetchScreen.setOnClickListener(v -> fetchScreen());
-        btnKeyHome.setOnClickListener(v -> runTask(() -> ControllerRepository.key(baseUrl(), code(), "home").toString(2)));
-        btnKeyBack.setOnClickListener(v -> runTask(() -> ControllerRepository.key(baseUrl(), code(), "back").toString(2)));
-        btnKeyRecent.setOnClickListener(v -> runTask(() -> ControllerRepository.key(baseUrl(), code(), "recent").toString(2)));
+        btnKeyHome.setOnClickListener(v -> sendKey("home"));
+        btnKeyBack.setOnClickListener(v -> sendKey("back"));
+        btnKeyRecent.setOnClickListener(v -> sendKey("recent"));
+        btnKeyUp.setOnClickListener(v -> sendKey("up"));
+        btnKeyDown.setOnClickListener(v -> sendKey("down"));
+        btnKeyLeft.setOnClickListener(v -> sendKey("left"));
+        btnKeyRight.setOnClickListener(v -> sendKey("right"));
+        btnKeyEnter.setOnClickListener(v -> sendKey("enter"));
+        btnKeyPower.setOnClickListener(v -> sendKey("power"));
+        btnKeyVolumeUp.setOnClickListener(v -> sendKey("volume_up"));
+        btnKeyVolumeDown.setOnClickListener(v -> sendKey("volume_down"));
         btnSendText.setOnClickListener(v -> runTask(() -> ControllerRepository.inputText(baseUrl(), code(), editRemoteText.getText().toString()).toString(2)));
         btnSwipeUp.setOnClickListener(v -> runTask(() -> ControllerRepository.swipe(baseUrl(), code(), 540, 1800, 540, 600, 220).toString(2)));
         btnAutoRefresh.setOnClickListener(v -> {
@@ -165,6 +181,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void fetchScreen() {
         runTaskWithBitmap(() -> ControllerRepository.fetchScreenshot(baseUrl(), code(), seekQuality.getProgress() + 25, 720));
+    }
+
+    private void sendKey(String key) {
+        runTask(() -> ControllerRepository.key(baseUrl(), code(), key).toString(2));
     }
 
     private void refreshLocalStatus() {

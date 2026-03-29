@@ -161,10 +161,69 @@
             android:textColor="@color/rpc_muted"
             android:textSize="12sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="方向控制"
+            android:textColor="@color/rpc_text"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+
+            <Button
+                android:id="@+id/btnKeyUp"
+                android:layout_width="72dp"
+                android:layout_height="52dp"
+                android:text="↑" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/btnKeyLeft"
+                    android:layout_width="72dp"
+                    android:layout_height="52dp"
+                    android:text="←" />
+
+                <Space android:layout_width="12dp" android:layout_height="1dp" />
+
+                <Button
+                    android:id="@+id/btnKeyEnter"
+                    android:layout_width="72dp"
+                    android:layout_height="52dp"
+                    android:text="OK" />
+
+                <Space android:layout_width="12dp" android:layout_height="1dp" />
+
+                <Button
+                    android:id="@+id/btnKeyRight"
+                    android:layout_width="72dp"
+                    android:layout_height="52dp"
+                    android:text="→" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnKeyDown"
+                android:layout_width="72dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
+                android:text="↓" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:orientation="horizontal">
 
             <Button
@@ -191,6 +250,38 @@
                 android:layout_height="52dp"
                 android:layout_weight="1"
                 android:text="Recent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnKeyPower"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="Power" />
+
+            <Space android:layout_width="10dp" android:layout_height="1dp" />
+
+            <Button
+                android:id="@+id/btnKeyVolumeUp"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="音量+" />
+
+            <Space android:layout_width="10dp" android:layout_height="1dp" />
+
+            <Button
+                android:id="@+id/btnKeyVolumeDown"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="音量-" />
         </LinearLayout>
 
         <EditText
