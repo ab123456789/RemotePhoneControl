@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private SeekBar seekQuality;
     private boolean autoRefresh;
     private Bitmap lastBitmap;
+    private int touchStartX;
+    private int touchStartY;
     private final Runnable autoRefreshTask = new Runnable() {
         @Override
         public void run() {
@@ -138,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         imageScreen.setOnTouchListener((v, event) -> {
-            if (event.getAction() != MotionEvent.ACTION_UP) return true;
             int viewW = Math.max(v.getWidth(), 1);
             int viewH = Math.max(v.getHeight(), 1);
             int remoteW = 1080;
@@ -153,10 +154,27 @@ public class MainActivity extends AppCompatActivity {
             }
             int x = Math.max(0, Math.min(remoteW - 1, Math.round((event.getX() / viewW) * remoteW)));
             int y = Math.max(0, Math.min(remoteH - 1, Math.round((event.getY() / viewH) * remoteH)));
-            runTask(() -> {
-                saveControllerPrefs();
-                return ControllerRepository.tap(baseUrl(), code(), x, y).toString(2);
-            });
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                touchStartX = x;
+                touchStartY = y;
+                return true;
+            }
+            if (event.getAction() != MotionEvent.ACTION_UP) return true;
+            int dx = Math.abs(x - touchStartX);
+            int dy = Math.abs(y - touchStartY);
+            if (dx < 24 && dy < 24) {
+                runTask(() -> {
+                    saveControllerPrefs();
+                    return ControllerRepository.tap(baseUrl(), code(), x, y).toString(2);
+                });
+            } else {
+                int endX = x;
+                int endY = y;
+                runTask(() -> {
+                    saveControllerPrefs();
+                    return ControllerRepository.swipe(baseUrl(), code(), touchStartX, touchStartY, endX, endY, 220).toString(2);
+                });
+            }
             return true;
         });
 
