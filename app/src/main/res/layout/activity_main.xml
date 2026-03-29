@@ -27,12 +27,28 @@
             android:textColor="@color/rpc_muted"
             android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/btnStartAgent"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:text="启动被控端服务" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnStartAgent"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:text="启动被控端服务" />
+
+            <Space android:layout_width="10dp" android:layout_height="1dp" />
+
+            <Button
+                android:id="@+id/btnStopAgent"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:text="停止被控端服务" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

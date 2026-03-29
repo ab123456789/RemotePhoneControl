@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button btnStartAgent = findViewById(R.id.btnStartAgent);
+        Button btnStopAgent = findViewById(R.id.btnStopAgent);
         Button btnCopyLocalAddress = findViewById(R.id.btnCopyLocalAddress);
         Button btnCopyLocalCode = findViewById(R.id.btnCopyLocalCode);
         Button btnFetchStatus = findViewById(R.id.btnFetchStatus);
@@ -112,6 +113,10 @@ public class MainActivity extends AppCompatActivity {
                 startService(intent);
             }
             refreshLocalStatus();
+        });
+        btnStopAgent.setOnClickListener(v -> {
+            stopService(new Intent(this, RemoteAgentService.class));
+            textOutput.setText("已请求停止被控端服务");
         });
         btnCopyLocalAddress.setOnClickListener(v -> copyLocalAddress());
         btnCopyLocalCode.setOnClickListener(v -> copyLocalCode());
