@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnCopyLocalCode = findViewById(R.id.btnCopyLocalCode);
         Button btnCopyConnectionInfo = findViewById(R.id.btnCopyConnectionInfo);
         Button btnShareConnectionInfo = findViewById(R.id.btnShareConnectionInfo);
+        Button btnQuickConnect = findViewById(R.id.btnQuickConnect);
         Button btnFetchStatus = findViewById(R.id.btnFetchStatus);
         Button btnFetchScreen = findViewById(R.id.btnFetchScreen);
         Button btnUseLocalAgent = findViewById(R.id.btnUseLocalAgent);
@@ -126,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         btnCopyConnectionInfo.setOnClickListener(v -> copyConnectionInfo());
         btnShareConnectionInfo.setOnClickListener(v -> shareConnectionInfo());
 
+        btnQuickConnect.setOnClickListener(v -> quickConnect());
         btnFetchStatus.setOnClickListener(v -> runTask(() -> refreshRemoteStatusText()));
         btnFetchScreen.setOnClickListener(v -> fetchScreen());
         btnUseLocalAgent.setOnClickListener(v -> useLocalAgentAddress());
@@ -291,6 +293,25 @@ public class MainActivity extends AppCompatActivity {
         runTaskWithBitmap(() -> {
             ensureRemoteStatusLoaded();
             return ControllerRepository.fetchScreenshot(baseUrl(), code(), seekQuality.getProgress() + 25, currentWidth());
+        });
+    }
+
+    private void quickConnect() {
+        saveControllerPrefs();
+        textOutput.setText("正在连接远程设备...");
+        executor.execute(() -> {
+            try {
+                JSONObject status = ControllerRepository.fetchStatus(baseUrl());
+                ControllerSession.setLastStatus(status);
+                Bitmap bitmap = ControllerRepository.fetchScreenshot(baseUrl(), code(), seekQuality.getProgress() + 25, currentWidth());
+                lastBitmap = bitmap;
+                runOnUiThread(() -> {
+                    imageScreen.setImageBitmap(bitmap);
+                    textOutput.setText(RemoteStatusFormatter.format(status) + "\n\n画面：已连接并刷新");
+                });
+            } catch (Exception e) {
+                runOnUiThread(() -> textOutput.setText("ERROR: " + e));
+            }
         });
     }
 
