@@ -28,6 +28,7 @@ public class RemoteAgentService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         ensureServerStarted();
+        androidx.core.app.NotificationManagerCompat.from(this).notify(NOTIFICATION_ID, buildNotification());
         return START_STICKY;
     }
 
@@ -62,10 +63,14 @@ public class RemoteAgentService extends Service {
             ? PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
             : PendingIntent.FLAG_UPDATE_CURRENT;
         PendingIntent pi = PendingIntent.getActivity(this, 0, intent, flags);
+        String code = AppConfig.getOrCreateAccessCode(this);
+        java.util.List<String> urls = AppConfig.getRemoteUrls();
+        String firstUrl = urls.isEmpty() ? ("127.0.0.1:" + AppConfig.PORT) : urls.get(0).replace("/api/status", "");
         return new NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.stat_sys_upload)
-            .setContentTitle("RemotePhoneControl")
-            .setContentText("被控端服务运行中")
+            .setContentTitle("RemotePhoneControl · 访问码 " + code)
+            .setContentText("被控端运行中 · " + firstUrl)
+            .setStyle(new NotificationCompat.BigTextStyle().bigText("访问码：" + code + "\n端口：" + AppConfig.PORT + "\n地址：" + firstUrl))
             .setContentIntent(pi)
             .setOngoing(true)
             .build();
