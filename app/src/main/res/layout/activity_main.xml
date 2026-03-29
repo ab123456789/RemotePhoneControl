@@ -22,30 +22,30 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="一个软件内同时支持被控端与控制端。被控端需要 root，控制端不需要 root，支持公网 IPv6 直连、触控操作、画质调节与远程控制。"
+            android:layout_marginTop="6dp"
+            android:text="公网 IPv6 直连，连上就直接触控。"
             android:textColor="@color/rpc_muted"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="14dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnModeAgent"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="44dp"
                 android:layout_weight="1"
                 android:text="被控端" />
 
-            <Space android:layout_width="10dp" android:layout_height="1dp" />
+            <Space android:layout_width="8dp" android:layout_height="1dp" />
 
             <Button
                 android:id="@+id/btnModeController"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="44dp"
                 android:layout_weight="1"
                 android:text="控制端" />
         </LinearLayout>
@@ -165,7 +165,7 @@
             android:id="@+id/sectionController"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="18dp"
             android:orientation="vertical">
 
         <TextView
