@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button btnStartAgent = findViewById(R.id.btnStartAgent);
+        Button btnCopyLocalAddress = findViewById(R.id.btnCopyLocalAddress);
+        Button btnCopyLocalCode = findViewById(R.id.btnCopyLocalCode);
         Button btnFetchStatus = findViewById(R.id.btnFetchStatus);
         Button btnFetchScreen = findViewById(R.id.btnFetchScreen);
         Button btnUseLocalAgent = findViewById(R.id.btnUseLocalAgent);
@@ -111,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
             }
             refreshLocalStatus();
         });
+        btnCopyLocalAddress.setOnClickListener(v -> copyLocalAddress());
+        btnCopyLocalCode.setOnClickListener(v -> copyLocalCode());
 
         btnFetchStatus.setOnClickListener(v -> runTask(() -> refreshRemoteStatusText()));
         btnFetchScreen.setOnClickListener(v -> fetchScreen());
@@ -370,6 +374,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void useLocalAgentAddress() {
+        String selected = pickLocalAgentBaseUrl();
+        editBaseUrl.setText(selected);
+        editAccessCode.setText(AppConfig.getOrCreateAccessCode(this));
+        saveControllerPrefs();
+        textOutput.setText("已带入本机被控端地址和访问码");
+    }
+
+    private void copyLocalAddress() {
+        ClipboardManager cm = getSystemService(ClipboardManager.class);
+        if (cm == null) return;
+        String selected = pickLocalAgentBaseUrl();
+        cm.setPrimaryClip(ClipData.newPlainText("remote_agent_address", selected));
+        textOutput.setText("已复制本机被控端地址到剪贴板");
+    }
+
+    private void copyLocalCode() {
+        ClipboardManager cm = getSystemService(ClipboardManager.class);
+        if (cm == null) return;
+        String code = AppConfig.getOrCreateAccessCode(this);
+        cm.setPrimaryClip(ClipData.newPlainText("remote_agent_code", code));
+        textOutput.setText("已复制访问码到剪贴板");
+    }
+
+    private String pickLocalAgentBaseUrl() {
         java.util.List<String> urls = AppConfig.getRemoteUrls();
         String selected = "http://127.0.0.1:" + AppConfig.PORT;
         for (String url : urls) {
@@ -381,10 +409,7 @@ public class MainActivity extends AppCompatActivity {
         if (selected.endsWith("/api/status")) {
             selected = selected.substring(0, selected.length() - "/api/status".length());
         }
-        editBaseUrl.setText(selected);
-        editAccessCode.setText(AppConfig.getOrCreateAccessCode(this));
-        saveControllerPrefs();
-        textOutput.setText("已带入本机被控端地址和访问码");
+        return selected;
     }
 
     private String baseUrl() {
