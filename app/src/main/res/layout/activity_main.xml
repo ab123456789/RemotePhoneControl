@@ -34,12 +34,120 @@
             android:layout_marginTop="18dp"
             android:text="启动被控端服务" />
 
-        <Button
-            android:id="@+id/btnOpenController"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="控制端"
+            android:textColor="@color/rpc_text"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editBaseUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#FFFFFFFF"
+            android:hint="http://192.168.1.8:19876"
+            android:inputType="textUri"
+            android:padding="14dp"
+            android:textColor="@color/rpc_text"
+            android:textColorHint="@color/rpc_muted" />
+
+        <EditText
+            android:id="@+id/editAccessCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#FFFFFFFF"
+            android:hint="访问码"
+            android:inputType="number"
+            android:padding="14dp"
+            android:textColor="@color/rpc_text"
+            android:textColorHint="@color/rpc_muted" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnFetchStatus"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:text="连通检查" />
+
+            <Space android:layout_width="10dp" android:layout_height="1dp" />
+
+            <Button
+                android:id="@+id/btnFetchScreen"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:text="刷新画面" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageScreen"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
             android:layout_marginTop="12dp"
-            android:text="打开控制台（开发中）" />
+            android:adjustViewBounds="true"
+            android:background="#FF111827"
+            android:scaleType="fitCenter" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnKeyHome"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="Home" />
+
+            <Space android:layout_width="10dp" android:layout_height="1dp" />
+
+            <Button
+                android:id="@+id/btnKeyBack"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="Back" />
+
+            <Space android:layout_width="10dp" android:layout_height="1dp" />
+
+            <Button
+                android:id="@+id/btnKeyRecent"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="Recent" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editRemoteText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#FFFFFFFF"
+            android:hint="发送到远程手机的文本"
+            android:padding="14dp"
+            android:textColor="@color/rpc_text"
+            android:textColorHint="@color/rpc_muted" />
+
+        <Button
+            android:id="@+id/btnSendText"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dp"
+            android:text="发送文本" />
 
         <TextView
             android:id="@+id/textOutput"
