@@ -454,8 +454,8 @@
         <Button
             android:id="@+id/btnToggleHelperPanel"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="22dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="18dp"
             android:text="展开辅助操作" />
 
         <LinearLayout
@@ -721,19 +721,20 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="当前状态"
+            android:layout_marginTop="18dp"
+            android:text="状态反馈"
             android:textColor="@color/rpc_text"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textOutput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:background="#FFFFFFFF"
-            android:padding="16dp"
+            android:minHeight="72dp"
+            android:padding="14dp"
             android:text="等待连接。填入公网 IPv6 地址和访问码后，可以直接打开远程画面并触控操作。"
             android:textColor="@color/rpc_text"
             android:textIsSelectable="true" />
