@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="一个软件内同时支持被控端与控制端。被控端需要 root，控制端不需要 root，支持 IPv4 / IPv6、画质调节与远程操作。"
+            android:text="一个软件内同时支持被控端与控制端。被控端需要 root，控制端不需要 root，支持公网 IPv6 直连、触控操作、画质调节与远程控制。"
             android:textColor="@color/rpc_muted"
             android:textSize="14sp" />
 
@@ -172,7 +172,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFFFF"
-                android:hint="被控端地址，例如 http://192.168.1.8:19876"
+                android:hint="公网 IPv6 地址，例如 http://[240e:xxxx:xxxx::1]:19876"
                 android:inputType="textUri"
                 android:padding="16dp"
                 android:textColor="@color/rpc_text"
@@ -224,7 +224,7 @@
                     android:layout_width="0dp"
                     android:layout_height="56dp"
                     android:layout_weight="1"
-                    android:text="快速连接" />
+                    android:text="直连并打开画面" />
 
                 <Space android:layout_width="10dp" android:layout_height="1dp" />
 
@@ -233,7 +233,7 @@
                     android:layout_width="0dp"
                     android:layout_height="56dp"
                     android:layout_weight="1"
-                    android:text="连接并盯屏" />
+                    android:text="直连并持续盯屏" />
             </LinearLayout>
 
             <LinearLayout
@@ -256,7 +256,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
-                    android:text="检查连接" />
+                    android:text="检查直连" />
 
                 <Space android:layout_width="10dp" android:layout_height="1dp" />
 
@@ -273,7 +273,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
-            android:text="远程画面"
+            android:text="远程画面（直接触控）"
             android:textColor="@color/rpc_text"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -409,7 +409,7 @@
             <ImageView
                 android:id="@+id/imageScreen"
                 android:layout_width="match_parent"
-                android:layout_height="340dp"
+                android:layout_height="420dp"
                 android:layout_marginTop="12dp"
                 android:adjustViewBounds="true"
                 android:background="#FF111827"
@@ -420,7 +420,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="短点=点击，拖拽=滑动，按住=长按。"
+                android:text="直接在画面上触控：短点=点击，拖拽=滑动，按住=长按。系统键放到下方辅助区。"
                 android:textColor="@color/rpc_muted"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -429,7 +429,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
-            android:text="快捷操作"
+            android:text="辅助操作"
             android:textColor="@color/rpc_text"
             android:textSize="18sp"
             android:textStyle="bold" />
