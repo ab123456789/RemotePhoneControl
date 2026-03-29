@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private final Handler handler = new Handler(Looper.getMainLooper());
     private TextView textOutput;
     private TextView textQuality;
+    private TextView textWidthPreset;
     private EditText editBaseUrl;
     private EditText editAccessCode;
     private EditText editRemoteText;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         textOutput = findViewById(R.id.textOutput);
         textQuality = findViewById(R.id.textQuality);
+        textWidthPreset = findViewById(R.id.textWidthPreset);
         editBaseUrl = findViewById(R.id.editBaseUrl);
         editAccessCode = findViewById(R.id.editAccessCode);
         editRemoteText = findViewById(R.id.editRemoteText);
@@ -255,6 +257,7 @@ public class MainActivity extends AppCompatActivity {
         if (editAccessCode.getText() == null || editAccessCode.getText().toString().trim().isEmpty()) {
             editAccessCode.setText(savedCode.isEmpty() ? AppConfig.getOrCreateAccessCode(this) : savedCode);
         }
+        updateWidthPresetText();
     }
 
     private void saveControllerPrefs() {
@@ -263,11 +266,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void setWidthPreset(int width) {
         ControllerPrefs.save(this, baseUrl(), code(), width);
+        updateWidthPresetText();
         textOutput.setText("截图宽度已切到：" + width);
     }
 
     private int currentWidth() {
         return ControllerPrefs.getWidth(this);
+    }
+
+    private void updateWidthPresetText() {
+        textWidthPreset.setText("当前宽度：" + currentWidth());
     }
 
     private String baseUrl() {
