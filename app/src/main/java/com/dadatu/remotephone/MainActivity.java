@@ -1,5 +1,7 @@
 package com.dadatu.remotephone;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -68,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnKeyVolumeUp = findViewById(R.id.btnKeyVolumeUp);
         Button btnKeyVolumeDown = findViewById(R.id.btnKeyVolumeDown);
         Button btnSendText = findViewById(R.id.btnSendText);
+        Button btnPasteClipboard = findViewById(R.id.btnPasteClipboard);
+        Button btnClearText = findViewById(R.id.btnClearText);
         Button btnAutoRefresh = findViewById(R.id.btnAutoRefresh);
         Button btnSwipeUp = findViewById(R.id.btnSwipeUp);
         Button btnSwipeLeft = findViewById(R.id.btnSwipeLeft);
@@ -125,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
             saveControllerPrefs();
             return ControllerRepository.inputText(baseUrl(), code(), editRemoteText.getText().toString()).toString(2);
         }, true));
+        btnPasteClipboard.setOnClickListener(v -> pasteClipboardToRemoteText());
+        btnClearText.setOnClickListener(v -> editRemoteText.setText(""));
         btnSwipeUp.setOnClickListener(v -> sendSwipe(540, 1800, 540, 600, 220));
         btnSwipeDown.setOnClickListener(v -> sendSwipe(540, 700, 540, 1900, 220));
         btnSwipeLeft.setOnClickListener(v -> sendSwipe(900, 1200, 180, 1200, 220));
@@ -343,6 +349,22 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateRefreshPresetText() {
         textRefreshPreset.setText("自动刷新：" + (currentRefreshMs() / 1000) + "秒");
+    }
+
+    private void pasteClipboardToRemoteText() {
+        ClipboardManager cm = getSystemService(ClipboardManager.class);
+        if (cm == null || !cm.hasPrimaryClip()) {
+            textOutput.setText("本机剪贴板为空");
+            return;
+        }
+        ClipData clip = cm.getPrimaryClip();
+        if (clip == null || clip.getItemCount() == 0) {
+            textOutput.setText("本机剪贴板为空");
+            return;
+        }
+        CharSequence text = clip.getItemAt(0).coerceToText(this);
+        editRemoteText.setText(text == null ? "" : text.toString());
+        textOutput.setText("已把本机剪贴板内容带入远程输入框");
     }
 
     private String baseUrl() {
