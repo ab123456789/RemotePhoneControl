@@ -1,745 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/background">
+
+  <ImageView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/rpc_bg"
-    android:fillViewport="true">
+    android:layout_gravity="center"
+    android:alpha="0.5"
+    android:padding="15dp"
+    android:scaleType="fitEnd"
+    android:src="@drawable/main_background" />
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_vertical"
+      android:orientation="horizontal"
+      android:paddingStart="20dp"
+      android:paddingTop="10dp"
+      android:paddingEnd="5dp"
+      android:paddingBottom="10dp">
+
+      <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="18dp">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="RemotePhoneControl"
-            android:textColor="@color/rpc_text"
-            android:textSize="26sp"
-            android:textStyle="bold" />
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/app_name_simple"
+          android:textColor="@color/onBackground"
+          android:textSize="@dimen/largeFont"
+          android:textStyle="bold" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="仿 Easycontrol 的安卓控安卓主界面，公网 IPv6 直连，连上就直接触控。"
-            android:textColor="@color/rpc_muted"
-            android:textSize="12sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnModeAgent"
-                android:layout_width="0dp"
-                android:layout_height="44dp"
-                android:layout_weight="1"
-                android:text="被控端" />
-
-            <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-            <Button
-                android:id="@+id/btnModeController"
-                android:layout_width="0dp"
-                android:layout_height="44dp"
-                android:layout_weight="1"
-                android:text="控制端" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/sectionAgent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="被控端（公网 IPv6 直连）"
-                android:textColor="@color/rpc_text"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="#14FFFFFF"
-                android:orientation="vertical"
-                android:padding="14dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="优先把公网 IPv6 地址和访问码发给控制端；服务启停放在下面。"
-                android:textColor="@color/rpc_muted"
-                android:textSize="13sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnCopyLocalAddress"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="复制地址" />
-
-                <Space android:layout_width="10dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnCopyLocalCode"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="复制访问码" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnCopyConnectionInfo"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="复制连接信息" />
-
-                <Space android:layout_width="10dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnShareConnectionInfo"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="分享连接信息" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="服务管理"
-                android:textColor="@color/rpc_text"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnStartAgent"
-                    android:layout_width="0dp"
-                    android:layout_height="52dp"
-                    android:layout_weight="1"
-                    android:text="启动服务" />
-
-                <Space android:layout_width="10dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnStopAgent"
-                    android:layout_width="0dp"
-                    android:layout_height="52dp"
-                    android:layout_weight="1"
-                    android:text="停止服务" />
-            </LinearLayout>
-        </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/sectionController"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="设备连接"
-            android:textColor="@color/rpc_text"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="#14FFFFFF"
-            android:orientation="vertical"
-            android:padding="14dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="填入被控端分享出来的公网 IPv6 地址和访问码，直接进入屏幕控制。"
-                android:textColor="@color/rpc_muted"
-                android:textSize="13sp" />
-
-            <EditText
-                android:id="@+id/editBaseUrl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFFFF"
-                android:hint="公网 IPv6 地址，例如 http://[240e:xxxx:xxxx::1]:19876"
-                android:inputType="textUri"
-                android:minHeight="52dp"
-                android:padding="14dp"
-                android:textColor="@color/rpc_text"
-                android:textColorHint="@color/rpc_muted" />
-
-            <EditText
-                android:id="@+id/editAccessCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="#FFFFFFFF"
-                android:hint="6位访问码"
-                android:inputType="number"
-                android:minHeight="52dp"
-                android:padding="14dp"
-                android:textColor="@color/rpc_text"
-                android:textColorHint="@color/rpc_muted" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnUseLocalAgent"
-                    android:layout_width="0dp"
-                    android:layout_height="46dp"
-                    android:layout_weight="1"
-                    android:text="使用本机地址" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnImportConnectionInfo"
-                    android:layout_width="0dp"
-                    android:layout_height="46dp"
-                    android:layout_weight="1"
-                    android:text="导入分享信息" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnQuickConnect"
-                    android:layout_width="0dp"
-                    android:layout_height="52dp"
-                    android:layout_weight="1"
-                    android:text="打开远程画面" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnQuickWatch"
-                    android:layout_width="0dp"
-                    android:layout_height="52dp"
-                    android:layout_weight="1"
-                    android:text="打开并持续查看" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnStopWatch"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:text="停止持续查看" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnFetchStatus"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:text="检查连接" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnFetchScreen"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:text="重刷画面" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:text="屏幕控制"
-            android:textColor="@color/rpc_text"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="#14FFFFFF"
-            android:orientation="vertical"
-            android:padding="14dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="画质"
-                    android:textColor="@color/rpc_text" />
-
-                <SeekBar
-                    android:id="@+id/seekQuality"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:max="70"
-                    android:progress="35" />
-
-                <TextView
-                    android:id="@+id/textQuality"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="60"
-                    android:textColor="@color/rpc_text" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnWidthLow"
-                    android:layout_width="0dp"
-                    android:layout_height="46dp"
-                    android:layout_weight="1"
-                    android:text="低清" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnWidthMedium"
-                    android:layout_width="0dp"
-                    android:layout_height="46dp"
-                    android:layout_weight="1"
-                    android:text="中清" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnWidthHigh"
-                    android:layout_width="0dp"
-                    android:layout_height="46dp"
-                    android:layout_weight="1"
-                    android:text="高清" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textWidthPreset"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="当前宽度：720"
-                android:textColor="@color/rpc_muted"
-                android:textSize="12sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnAutoRefresh"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="开启自动刷新" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnRefresh1s"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="1秒" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnRefresh2s"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="2秒" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnRefresh4s"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="4秒" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textRefreshPreset"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="自动刷新：2秒"
-                android:textColor="@color/rpc_muted"
-                android:textSize="12sp" />
-
-            <ImageView
-                android:id="@+id/imageScreen"
-                android:layout_width="match_parent"
-                android:layout_height="380dp"
-                android:layout_marginTop="12dp"
-                android:adjustViewBounds="true"
-                android:background="#FF111827"
-                android:contentDescription="远程画面"
-                android:scaleType="fitCenter" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="连上后直接在画面上触控：短点=点击，拖拽=滑动，按住=长按。系统键放到下方辅助区。"
-                android:textColor="@color/rpc_muted"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnToggleHelperPanel"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_marginTop="18dp"
-            android:text="更多控制" />
-
-        <LinearLayout
-            android:id="@+id/sectionHelperPanel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="#14FFFFFF"
-            android:orientation="vertical"
-            android:padding="14dp"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="辅助操作"
-                android:textColor="@color/rpc_text"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnSwipeUp"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="上滑" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnSwipeLeft"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="左滑" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnSwipeDown"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="下滑" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnSwipeRight"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="右滑" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="方向键"
-                android:textColor="@color/rpc_text"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/btnKeyUp"
-                    android:layout_width="84dp"
-                    android:layout_height="52dp"
-                    android:text="↑" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/btnKeyLeft"
-                        android:layout_width="84dp"
-                        android:layout_height="52dp"
-                        android:text="←" />
-
-                    <Space android:layout_width="12dp" android:layout_height="1dp" />
-
-                    <Button
-                        android:id="@+id/btnKeyEnter"
-                        android:layout_width="84dp"
-                        android:layout_height="52dp"
-                        android:text="OK" />
-
-                    <Space android:layout_width="12dp" android:layout_height="1dp" />
-
-                    <Button
-                        android:id="@+id/btnKeyRight"
-                        android:layout_width="84dp"
-                        android:layout_height="52dp"
-                        android:text="→" />
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/btnKeyDown"
-                    android:layout_width="84dp"
-                    android:layout_height="52dp"
-                    android:layout_marginTop="8dp"
-                    android:text="↓" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="系统键"
-                android:textColor="@color/rpc_text"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnKeyHome"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="Home" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnKeyBack"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="Back" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnKeyRecent"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="Recent" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnKeyMenu"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="Menu" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnKeyPower"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="Power" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnKeyVolumeUp"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="音量+" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnKeyVolumeDown"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="音量-" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:text="文本输入"
-            android:textColor="@color/rpc_text"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="#14FFFFFF"
-            android:orientation="vertical"
-            android:padding="14dp">
-
-            <EditText
-                android:id="@+id/editRemoteText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFFFF"
-                android:hint="发送到远程手机的文本"
-                android:minHeight="100dp"
-                android:padding="14dp"
-                android:gravity="top|start"
-                android:textColor="@color/rpc_text"
-                android:textColorHint="@color/rpc_muted" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnPasteClipboard"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="粘贴剪贴板" />
-
-                <Space android:layout_width="8dp" android:layout_height="1dp" />
-
-                <Button
-                    android:id="@+id/btnClearText"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="清空" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btnSendText"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="10dp"
-                android:text="发送文本" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="状态反馈"
-            android:textColor="@color/rpc_text"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textOutput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="#FFFFFFFF"
-            android:minHeight="72dp"
-            android:padding="14dp"
-            android:text="等待连接。填入公网 IPv6 地址和访问码后，可以直接打开远程画面并触控操作。"
-            android:textColor="@color/rpc_text"
-            android:textIsSelectable="true" />
-
-        </LinearLayout>
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:maxLines="1"
+          android:text="@string/main_poem"
+          android:textColor="@color/onBackgroundSecond"
+          android:textSize="@dimen/smallSmallFont" />
+      </LinearLayout>
+
+      <ImageView
+        android:id="@+id/button_set"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:padding="10dp"
+        android:src="@drawable/bars"
+        android:tint="@color/onBackground" />
 
     </LinearLayout>
-</ScrollView>
+
+    <ListView
+      android:id="@+id/devices_list"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginTop="6dp"
+      android:divider="#00000000"
+      android:dividerHeight="14dp"
+      android:padding="15dp"
+      tools:listitem="@layout/item_devices_item" />
+
+  </LinearLayout>
+
+  <ImageView
+    android:id="@+id/button_add"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:layout_gravity="center_horizontal|bottom"
+    android:layout_marginBottom="40dp"
+    android:background="@drawable/background_round"
+    android:backgroundTint="@color/button"
+    android:elevation="8dp"
+    android:padding="18dp"
+    android:src="@drawable/plus"
+    android:tint="@color/onButton" />
+</FrameLayout>
