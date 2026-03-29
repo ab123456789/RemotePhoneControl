@@ -73,12 +73,28 @@
                 android:text="复制访问码" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btnCopyConnectionInfo"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="复制完整连接信息" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCopyConnectionInfo"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="复制完整连接信息" />
+
+            <Space android:layout_width="10dp" android:layout_height="1dp" />
+
+            <Button
+                android:id="@+id/btnShareConnectionInfo"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="分享连接信息" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"

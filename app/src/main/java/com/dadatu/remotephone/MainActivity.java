@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnCopyLocalAddress = findViewById(R.id.btnCopyLocalAddress);
         Button btnCopyLocalCode = findViewById(R.id.btnCopyLocalCode);
         Button btnCopyConnectionInfo = findViewById(R.id.btnCopyConnectionInfo);
+        Button btnShareConnectionInfo = findViewById(R.id.btnShareConnectionInfo);
         Button btnFetchStatus = findViewById(R.id.btnFetchStatus);
         Button btnFetchScreen = findViewById(R.id.btnFetchScreen);
         Button btnUseLocalAgent = findViewById(R.id.btnUseLocalAgent);
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         btnCopyLocalAddress.setOnClickListener(v -> copyLocalAddress());
         btnCopyLocalCode.setOnClickListener(v -> copyLocalCode());
         btnCopyConnectionInfo.setOnClickListener(v -> copyConnectionInfo());
+        btnShareConnectionInfo.setOnClickListener(v -> shareConnectionInfo());
 
         btnFetchStatus.setOnClickListener(v -> runTask(() -> refreshRemoteStatusText()));
         btnFetchScreen.setOnClickListener(v -> fetchScreen());
@@ -409,11 +411,22 @@ public class MainActivity extends AppCompatActivity {
     private void copyConnectionInfo() {
         ClipboardManager cm = getSystemService(ClipboardManager.class);
         if (cm == null) return;
+        cm.setPrimaryClip(ClipData.newPlainText("remote_agent_connection_info", buildConnectionInfoText()));
+        textOutput.setText("已复制完整连接信息到剪贴板");
+    }
+
+    private void shareConnectionInfo() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, buildConnectionInfoText());
+        startActivity(Intent.createChooser(intent, "分享连接信息"));
+        textOutput.setText("已打开系统分享面板");
+    }
+
+    private String buildConnectionInfoText() {
         String base = pickLocalAgentBaseUrl();
         String code = AppConfig.getOrCreateAccessCode(this);
-        String text = "RemotePhoneControl 连接信息\n地址：" + base + "\n访问码：" + code;
-        cm.setPrimaryClip(ClipData.newPlainText("remote_agent_connection_info", text));
-        textOutput.setText("已复制完整连接信息到剪贴板");
+        return "RemotePhoneControl 连接信息\n地址：" + base + "\n访问码：" + code;
     }
 
     private void importConnectionInfoFromClipboard() {
