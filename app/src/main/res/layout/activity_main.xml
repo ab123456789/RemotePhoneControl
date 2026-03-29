@@ -171,7 +171,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="公网 IPv6 直连"
+            android:text="第 1 步：公网 IPv6 直连"
             android:textColor="@color/rpc_text"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -187,7 +187,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="把被控端手机分享出来的公网 IPv6 地址和 6 位访问码填进来，然后直接打开远程画面。"
+                android:text="先把被控端手机分享出来的公网 IPv6 地址和 6 位访问码填进来，再直接打开远程画面。"
                 android:textColor="@color/rpc_muted"
                 android:textSize="13sp" />
 
@@ -297,7 +297,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
-            android:text="远程画面（直接触控）"
+            android:text="第 2 步：远程画面（直接触控）"
             android:textColor="@color/rpc_text"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -444,7 +444,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="直接在画面上触控：短点=点击，拖拽=滑动，按住=长按。系统键放到下方辅助区。"
+                android:text="连上后直接在画面上触控：短点=点击，拖拽=滑动，按住=长按。系统键放到下方辅助区。"
                 android:textColor="@color/rpc_muted"
                 android:textSize="12sp" />
         </LinearLayout>
