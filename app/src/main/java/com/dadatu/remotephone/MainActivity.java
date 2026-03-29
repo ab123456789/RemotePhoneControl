@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         btnSendText.setOnClickListener(v -> runTask(() -> {
             saveControllerPrefs();
             return ControllerRepository.inputText(baseUrl(), code(), editRemoteText.getText().toString()).toString(2);
-        }));
+        }, true));
         btnSwipeUp.setOnClickListener(v -> sendSwipe(540, 1800, 540, 600, 220));
         btnSwipeDown.setOnClickListener(v -> sendSwipe(540, 700, 540, 1900, 220));
         btnSwipeLeft.setOnClickListener(v -> sendSwipe(900, 1200, 180, 1200, 220));
@@ -168,14 +168,14 @@ public class MainActivity extends AppCompatActivity {
                 runTask(() -> {
                     saveControllerPrefs();
                     return ControllerRepository.tap(baseUrl(), code(), x, y).toString(2);
-                });
+                }, true);
             } else {
                 int endX = x;
                 int endY = y;
                 runTask(() -> {
                     saveControllerPrefs();
                     return ControllerRepository.swipe(baseUrl(), code(), touchStartX, touchStartY, endX, endY, 220).toString(2);
-                });
+                }, true);
             }
             return true;
         });
@@ -201,6 +201,10 @@ public class MainActivity extends AppCompatActivity {
     private interface BitmapTask { Bitmap run() throws Exception; }
 
     private void runTask(TextTask task) {
+        runTask(task, false);
+    }
+
+    private void runTask(TextTask task, boolean refreshAfter) {
         textOutput.setText("处理中...");
         executor.execute(() -> {
             try {
@@ -212,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         textOutput.setText(result);
                     }
+                    if (refreshAfter) scheduleSingleRefresh();
                 });
             } catch (Exception e) {
                 runOnUiThread(() -> textOutput.setText("ERROR: " + e));
@@ -248,11 +253,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void scheduleSingleRefresh() {
+        handler.removeCallbacks(autoRefreshTask);
+        if (autoRefresh) {
+            handler.postDelayed(autoRefreshTask, Math.min(600, currentRefreshMs()));
+        } else {
+            handler.postDelayed(this::fetchScreen, 350);
+        }
+    }
+
     private void sendKey(String key) {
         runTask(() -> {
             saveControllerPrefs();
             return ControllerRepository.key(baseUrl(), code(), key).toString(2);
-        });
+        }, true);
     }
 
     private String refreshRemoteStatusText() throws Exception {
@@ -272,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
         runTask(() -> {
             saveControllerPrefs();
             return ControllerRepository.swipe(baseUrl(), code(), x1, y1, x2, y2, durationMs).toString(2);
-        });
+        }, true);
     }
 
     private void refreshLocalStatus() {
