@@ -64,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         Button btnSendText = findViewById(R.id.btnSendText);
         Button btnAutoRefresh = findViewById(R.id.btnAutoRefresh);
         Button btnSwipeUp = findViewById(R.id.btnSwipeUp);
+        Button btnSwipeLeft = findViewById(R.id.btnSwipeLeft);
+        Button btnSwipeDown = findViewById(R.id.btnSwipeDown);
+        Button btnSwipeRight = findViewById(R.id.btnSwipeRight);
 
         textOutput = findViewById(R.id.textOutput);
         textQuality = findViewById(R.id.textQuality);
@@ -91,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnFetchStatus.setOnClickListener(v -> runTask(() -> {
-            JSONObject status = ControllerRepository.fetchStatus(editBaseUrl.getText().toString());
+            saveControllerPrefs();
+            JSONObject status = ControllerRepository.fetchStatus(baseUrl());
             return status.toString(2);
         }));
         btnFetchScreen.setOnClickListener(v -> fetchScreen());
@@ -106,8 +110,14 @@ public class MainActivity extends AppCompatActivity {
         btnKeyPower.setOnClickListener(v -> sendKey("power"));
         btnKeyVolumeUp.setOnClickListener(v -> sendKey("volume_up"));
         btnKeyVolumeDown.setOnClickListener(v -> sendKey("volume_down"));
-        btnSendText.setOnClickListener(v -> runTask(() -> ControllerRepository.inputText(baseUrl(), code(), editRemoteText.getText().toString()).toString(2)));
-        btnSwipeUp.setOnClickListener(v -> runTask(() -> ControllerRepository.swipe(baseUrl(), code(), 540, 1800, 540, 600, 220).toString(2)));
+        btnSendText.setOnClickListener(v -> runTask(() -> {
+            saveControllerPrefs();
+            return ControllerRepository.inputText(baseUrl(), code(), editRemoteText.getText().toString()).toString(2);
+        }));
+        btnSwipeUp.setOnClickListener(v -> sendSwipe(540, 1800, 540, 600, 220));
+        btnSwipeDown.setOnClickListener(v -> sendSwipe(540, 700, 540, 1900, 220));
+        btnSwipeLeft.setOnClickListener(v -> sendSwipe(900, 1200, 180, 1200, 220));
+        btnSwipeRight.setOnClickListener(v -> sendSwipe(180, 1200, 900, 1200, 220));
         btnAutoRefresh.setOnClickListener(v -> {
             autoRefresh = !autoRefresh;
             btnAutoRefresh.setText(autoRefresh ? "停止自动刷新" : "开启自动刷新");
@@ -127,7 +137,10 @@ public class MainActivity extends AppCompatActivity {
             }
             int x = Math.max(0, Math.min(remoteW - 1, Math.round((event.getX() / viewW) * remoteW)));
             int y = Math.max(0, Math.min(remoteH - 1, Math.round((event.getY() / viewH) * remoteH)));
-            runTask(() -> ControllerRepository.tap(baseUrl(), code(), x, y).toString(2));
+            runTask(() -> {
+                saveControllerPrefs();
+                return ControllerRepository.tap(baseUrl(), code(), x, y).toString(2);
+            });
             return true;
         });
 
@@ -180,21 +193,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchScreen() {
+        saveControllerPrefs();
         runTaskWithBitmap(() -> ControllerRepository.fetchScreenshot(baseUrl(), code(), seekQuality.getProgress() + 25, 720));
     }
 
     private void sendKey(String key) {
-        runTask(() -> ControllerRepository.key(baseUrl(), code(), key).toString(2));
+        runTask(() -> {
+            saveControllerPrefs();
+            return ControllerRepository.key(baseUrl(), code(), key).toString(2);
+        });
+    }
+
+    private void sendSwipe(int x1, int y1, int x2, int y2, int durationMs) {
+        runTask(() -> {
+            saveControllerPrefs();
+            return ControllerRepository.swipe(baseUrl(), code(), x1, y1, x2, y2, durationMs).toString(2);
+        });
     }
 
     private void refreshLocalStatus() {
         textOutput.setText(AgentRepository.buildStatusText(this));
+        String savedBaseUrl = ControllerPrefs.getBaseUrl(this);
+        String savedCode = ControllerPrefs.getAccessCode(this);
         if (editBaseUrl.getText() == null || editBaseUrl.getText().toString().trim().isEmpty()) {
-            editBaseUrl.setText("http://127.0.0.1:" + AppConfig.PORT);
+            editBaseUrl.setText(savedBaseUrl.isEmpty() ? "http://127.0.0.1:" + AppConfig.PORT : savedBaseUrl);
         }
         if (editAccessCode.getText() == null || editAccessCode.getText().toString().trim().isEmpty()) {
-            editAccessCode.setText(AppConfig.getOrCreateAccessCode(this));
+            editAccessCode.setText(savedCode.isEmpty() ? AppConfig.getOrCreateAccessCode(this) : savedCode);
         }
+    }
+
+    private void saveControllerPrefs() {
+        ControllerPrefs.save(this, baseUrl(), code());
     }
 
     private String baseUrl() {

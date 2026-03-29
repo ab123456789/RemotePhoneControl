@@ -1,0 +1,28 @@
+package com.dadatu.remotephone;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+public final class ControllerPrefs {
+    private ControllerPrefs() {}
+
+    private static final String PREFS = "controller_prefs";
+    private static final String KEY_BASE_URL = "base_url";
+    private static final String KEY_ACCESS_CODE = "access_code_input";
+
+    public static void save(Context context, String baseUrl, String accessCode) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        prefs.edit()
+            .putString(KEY_BASE_URL, baseUrl == null ? "" : baseUrl.trim())
+            .putString(KEY_ACCESS_CODE, accessCode == null ? "" : accessCode.trim())
+            .apply();
+    }
+
+    public static String getBaseUrl(Context context) {
+        return context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY_BASE_URL, "");
+    }
+
+    public static String getAccessCode(Context context) {
+        return context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY_ACCESS_CODE, "");
+    }
+}
