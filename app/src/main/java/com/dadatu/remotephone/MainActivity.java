@@ -119,10 +119,12 @@ public class MainActivity extends AppCompatActivity {
                 startService(intent);
             }
             refreshLocalStatus();
+            updateAutoRefreshButtonText((Button) findViewById(R.id.btnAutoRefresh));
         });
         btnStopAgent.setOnClickListener(v -> {
             stopService(new Intent(this, RemoteAgentService.class));
             textOutput.setText("已请求停止被控端服务");
+            refreshLocalStatus();
         });
         btnCopyLocalAddress.setOnClickListener(v -> copyLocalAddress());
         btnCopyLocalCode.setOnClickListener(v -> copyLocalCode());
@@ -333,6 +335,7 @@ public class MainActivity extends AppCompatActivity {
                         handler.postDelayed(autoRefreshTask, currentRefreshMs());
                         textOutput.setText(RemoteStatusFormatter.format(status) + "\n\n画面：已连接并进入自动刷新");
                     } else {
+                        updateAutoRefreshButtonText((Button) findViewById(R.id.btnAutoRefresh));
                         textOutput.setText(RemoteStatusFormatter.format(status) + "\n\n画面：已连接并刷新");
                     }
                 });
@@ -390,6 +393,7 @@ public class MainActivity extends AppCompatActivity {
         }
         updateWidthPresetText();
         updateRefreshPresetText();
+        updateAutoRefreshButtonText((Button) findViewById(R.id.btnAutoRefresh));
     }
 
     private void saveControllerPrefs() {
