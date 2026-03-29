@@ -25,6 +25,8 @@ public class AgentControlManager {
         Shell.Result idResult = RootShell.execSh("id");
         obj.put("rootOk", idResult.getCode() == 0 && RootShell.join(idResult.getOut()).contains("uid=0"));
         obj.put("idOutput", RootShell.join(idResult.getOut()));
+        JSONObject display = readDisplaySize();
+        obj.put("display", display);
         obj.put("serverTime", System.currentTimeMillis());
         return obj;
     }
@@ -107,6 +109,21 @@ public class AgentControlManager {
         obj.put("args", arr);
         obj.put("stdout", RootShell.join(result.getOut()));
         obj.put("stderr", RootShell.join(result.getErr()));
+        return obj;
+    }
+
+    private JSONObject readDisplaySize() throws Exception {
+        Shell.Result result = RootShell.execSh("wm size");
+        String all = RootShell.join(result.getOut());
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("(\\d+)x(\\d+)").matcher(all);
+        JSONObject obj = new JSONObject();
+        if (m.find()) {
+            obj.put("width", Integer.parseInt(m.group(1)));
+            obj.put("height", Integer.parseInt(m.group(2)));
+        } else {
+            obj.put("width", 1080);
+            obj.put("height", 2400);
+        }
         return obj;
     }
 

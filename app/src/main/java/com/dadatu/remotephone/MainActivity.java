@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         btnFetchStatus.setOnClickListener(v -> runTask(() -> {
             saveControllerPrefs();
             JSONObject status = ControllerRepository.fetchStatus(baseUrl());
+            ControllerSession.setLastStatus(status);
             return status.toString(2);
         }));
         btnFetchScreen.setOnClickListener(v -> fetchScreen());
@@ -131,9 +132,13 @@ public class MainActivity extends AppCompatActivity {
             int viewH = Math.max(v.getHeight(), 1);
             int remoteW = 1080;
             int remoteH = 2400;
-            if (lastBitmap != null && lastBitmap.getWidth() > 0 && lastBitmap.getHeight() > 0) {
-                remoteW = lastBitmap.getWidth();
-                remoteH = lastBitmap.getHeight();
+            JSONObject lastStatus = ControllerSession.getLastStatus();
+            if (lastStatus != null) {
+                JSONObject display = lastStatus.optJSONObject("display");
+                if (display != null) {
+                    remoteW = display.optInt("width", remoteW);
+                    remoteH = display.optInt("height", remoteH);
+                }
             }
             int x = Math.max(0, Math.min(remoteW - 1, Math.round((event.getX() / viewW) * remoteW)));
             int y = Math.max(0, Math.min(remoteH - 1, Math.round((event.getY() / viewH) * remoteH)));
