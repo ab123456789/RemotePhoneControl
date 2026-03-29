@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnShareConnectionInfo = findViewById(R.id.btnShareConnectionInfo);
         Button btnQuickConnect = findViewById(R.id.btnQuickConnect);
         Button btnQuickWatch = findViewById(R.id.btnQuickWatch);
+        Button btnStopWatch = findViewById(R.id.btnStopWatch);
         Button btnFetchStatus = findViewById(R.id.btnFetchStatus);
         Button btnFetchScreen = findViewById(R.id.btnFetchScreen);
         Button btnUseLocalAgent = findViewById(R.id.btnUseLocalAgent);
@@ -130,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnQuickConnect.setOnClickListener(v -> quickConnect());
         btnQuickWatch.setOnClickListener(v -> quickWatch());
+        btnStopWatch.setOnClickListener(v -> stopWatching());
         btnFetchStatus.setOnClickListener(v -> runTask(() -> refreshRemoteStatusText()));
         btnFetchScreen.setOnClickListener(v -> fetchScreen());
         btnUseLocalAgent.setOnClickListener(v -> useLocalAgentAddress());
@@ -304,6 +306,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void quickWatch() {
         quickConnect(true);
+    }
+
+    private void stopWatching() {
+        autoRefresh = false;
+        handler.removeCallbacks(autoRefreshTask);
+        updateAutoRefreshButtonText((Button) findViewById(R.id.btnAutoRefresh));
+        textOutput.setText("已停止盯屏");
     }
 
     private void quickConnect(boolean enableAutoRefreshAfter) {

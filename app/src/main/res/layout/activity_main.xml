@@ -166,6 +166,13 @@
                 android:text="连接并开启盯屏" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btnStopWatch"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:text="停止盯屏" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
