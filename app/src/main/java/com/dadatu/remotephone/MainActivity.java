@@ -480,7 +480,7 @@ public class MainActivity extends AppCompatActivity {
             sectionHelperPanel.setVisibility(helperPanelVisible ? View.VISIBLE : View.GONE);
         }
         if (btnToggleHelperPanel != null) {
-            btnToggleHelperPanel.setText(helperPanelVisible ? "收起辅助操作" : "展开辅助操作");
+            btnToggleHelperPanel.setText(helperPanelVisible ? "收起更多控制" : "更多控制");
         }
     }
 

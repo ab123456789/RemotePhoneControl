@@ -16,16 +16,16 @@
             android:layout_height="wrap_content"
             android:text="RemotePhoneControl"
             android:textColor="@color/rpc_text"
-            android:textSize="28sp"
+            android:textSize="26sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="公网 IPv6 直连，连上就直接触控。"
+            android:layout_marginTop="4dp"
+            android:text="仿 Easycontrol 的安卓控安卓主界面，公网 IPv6 直连，连上就直接触控。"
             android:textColor="@color/rpc_muted"
-            android:textSize="13sp" />
+            android:textSize="12sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -171,7 +171,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="第 1 步：公网 IPv6 直连"
+            android:text="设备连接"
             android:textColor="@color/rpc_text"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -187,7 +187,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="填入被控端分享出来的公网 IPv6 地址和 6 位访问码，然后直接打开远程画面。"
+                android:text="填入被控端分享出来的公网 IPv6 地址和访问码，直接进入屏幕控制。"
                 android:textColor="@color/rpc_muted"
                 android:textSize="13sp" />
 
@@ -299,7 +299,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
-            android:text="第 2 步：远程画面（直接触控）"
+            android:text="屏幕控制"
             android:textColor="@color/rpc_text"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -456,7 +456,7 @@
             android:layout_width="match_parent"
             android:layout_height="46dp"
             android:layout_marginTop="18dp"
-            android:text="展开辅助操作" />
+            android:text="更多控制" />
 
         <LinearLayout
             android:id="@+id/sectionHelperPanel"
