@@ -169,7 +169,14 @@ public class MainActivity extends AppCompatActivity {
         executor.execute(() -> {
             try {
                 String result = task.run();
-                runOnUiThread(() -> textOutput.setText(result));
+                runOnUiThread(() -> {
+                    JSONObject status = ControllerSession.getLastStatus();
+                    if (status != null && !result.startsWith("远程设备状态")) {
+                        textOutput.setText(RemoteStatusFormatter.format(status) + "\n\n最近操作结果：\n" + result);
+                    } else {
+                        textOutput.setText(result);
+                    }
+                });
             } catch (Exception e) {
                 runOnUiThread(() -> textOutput.setText("ERROR: " + e));
             }
@@ -184,7 +191,12 @@ public class MainActivity extends AppCompatActivity {
                 lastBitmap = bitmap;
                 runOnUiThread(() -> {
                     imageScreen.setImageBitmap(bitmap);
-                    textOutput.setText("远程画面已刷新");
+                    JSONObject status = ControllerSession.getLastStatus();
+                    if (status != null) {
+                        textOutput.setText(RemoteStatusFormatter.format(status) + "\n\n画面：已刷新");
+                    } else {
+                        textOutput.setText("远程画面已刷新");
+                    }
                 });
             } catch (Exception e) {
                 runOnUiThread(() -> textOutput.setText("ERROR: " + e));
